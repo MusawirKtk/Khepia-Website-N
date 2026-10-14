@@ -2,44 +2,41 @@
 import { withBase } from "../../utils/withBase";
 ---
 
-<section class="final-cta section section--navy" id="get-khepia">
+<section class="final-cta section section--kraft" id="get-khepia">
   <div class="container">
-    <div class="cta-inner reveal">
-      <h2 class="cta-headline">Something to send? Flying somewhere?</h2>
-      <p class="cta-sub">Verified people. Matching routes. Protected payment.</p>
-      <div class="cta-actions">
-        <a href={withBase("#sender")} class="btn btn--on-dark btn--lg">Send a parcel</a>
-        <a href={withBase("#carry")} class="btn btn--outline-dark btn--lg">Carry & earn</a>
-      </div>
-      <p class="cta-legal">
-        <a href={withBase("terms")}>Terms</a>
-        <span aria-hidden="true">·</span>
-        <a href={withBase("privacy")}>Privacy</a>
-      </p>
+    <h2 class="cta-headline lines">
+      <span class="line"><span data-line style="--i:0">Something to send?</span></span>
+      <span class="line"><span data-line style="--i:1">Flying somewhere?</span></span>
+    </h2>
+    <p class="cta-sub" data-reveal style="--i:3">Verified people. Matching routes. Protected payment.</p>
+    <div class="cta-actions" data-reveal style="--i:4">
+      <a href={withBase("#sender")} class="btn btn--primary btn--lg">Send a parcel</a>
+      <a href={withBase("#carry")} class="btn btn--on-dark btn--lg">Carry & earn</a>
     </div>
+    <p class="cta-legal" data-reveal="fade" style="--i:5">
+      <a href={withBase("terms")}>Terms</a>
+      <span aria-hidden="true">·</span>
+      <a href={withBase("privacy")}>Privacy</a>
+    </p>
   </div>
 </section>
 
 <style>
-  .final-cta {
-    padding-block: var(--space-30);
-  }
-
-  .cta-inner {
-    text-align: center;
-    max-width: var(--container-text);
-    margin-inline: auto;
-  }
+  .final-cta { padding-block: clamp(88px, 13vw, 200px); }
 
   .cta-headline {
-    font-size: var(--text-h1);
-    color: var(--text-on-dark);
-    margin-bottom: var(--space-4);
+    font-size: clamp(2.6rem, 9vw, 8.4rem);
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.055em;
+    line-height: var(--leading-display);
+    color: var(--deep);
+    margin-bottom: var(--space-8);
   }
 
   .cta-sub {
     font-size: var(--text-lg);
-    color: var(--text-on-dark-secondary);
+    font-weight: var(--weight-medium);
+    color: var(--deep);
     margin-bottom: var(--space-10);
   }
 
@@ -47,26 +44,21 @@ import { withBase } from "../../utils/withBase";
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-4);
-    justify-content: center;
   }
 
   .cta-legal {
-    margin-top: var(--space-8);
+    margin-top: var(--space-10);
     display: flex;
     gap: var(--space-3);
-    justify-content: center;
     align-items: center;
     font-size: var(--text-sm);
-    color: var(--text-on-dark-secondary);
+    color: var(--deep);
   }
 
   .cta-legal a {
-    color: var(--text-on-dark-secondary);
+    color: var(--deep);
     text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .cta-legal a:hover {
-    color: var(--text-on-dark);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
   }
 </style>

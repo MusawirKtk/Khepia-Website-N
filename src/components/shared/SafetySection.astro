@@ -1,53 +1,66 @@
 ---
 import { withBase } from "../../utils/withBase";
+
+const links = [
+  {
+    role: "Sender",
+    items: [
+      "Declare contents and weight accurately",
+      "Send only non-dutiable, non-prohibited items",
+      "Upload required photos and pack for air travel",
+      "Accept that customs may detain or confiscate",
+    ],
+  },
+  {
+    role: "Passenger",
+    items: [
+      "Inspect before accepting; refuse if contents don’t match",
+      "Must refuse if a Prohibited Item is suspected",
+      "Carry in your own baggage; declare when required",
+      "Deliver only to the named Receiver after CNIC check",
+    ],
+  },
+  {
+    role: "Receiver",
+    items: [
+      "Must match the name and CNIC on the Booking",
+      "Original CNIC required at handover — no other ID",
+      "Delivery photo includes Receiver CNIC with the Parcel",
+    ],
+  },
+];
 ---
 
-<section class="safety section section--soft" id="safety">
+<section class="safety section section--navy" id="safety">
   <div class="container">
-    <div class="safety-header reveal">
-      <h2 class="section-title-center">Verified people. Clear rules.</h2>
-      <p class="safety-intro">
+    <div class="safety-header">
+      <h2 class="safety-title lines">
+        <span class="line"><span data-line style="--i:0">Verified people.</span></span>
+        <span class="line"><span data-line style="--i:1">Clear rules.</span></span>
+      </h2>
+      <p class="safety-intro" data-reveal style="--i:3">
         Every account is CNIC-checked and manually reviewed. Contacts stay private until both sides have paid. Non-dutiable items only — see the Terms for the full prohibited list.
       </p>
     </div>
 
-    <div class="safety-grid">
-      <div class="safety-card reveal">
-        <h3 class="safety-role">Sender</h3>
-        <ul class="safety-list">
-          <li>Declare contents and weight accurately</li>
-          <li>Send only non-dutiable, non-prohibited items</li>
-          <li>Upload required photos and pack for air travel</li>
-          <li>Accept that customs may detain or confiscate</li>
-        </ul>
-      </div>
-
-      <div class="safety-card reveal" style="transition-delay: 80ms">
-        <h3 class="safety-role">Passenger</h3>
-        <ul class="safety-list">
-          <li>Inspect before accepting; refuse if contents don’t match</li>
-          <li>Must refuse if a Prohibited Item is suspected</li>
-          <li>Carry in your own baggage; declare when required</li>
-          <li>Deliver only to the named Receiver after CNIC check</li>
-        </ul>
-      </div>
-
-      <div class="safety-card reveal" style="transition-delay: 160ms">
-        <h3 class="safety-role">Receiver</h3>
-        <ul class="safety-list">
-          <li>Must match the name and CNIC on the Booking</li>
-          <li>Original CNIC required at handover — no other ID</li>
-          <li>Delivery photo includes Receiver CNIC with the Parcel</li>
-        </ul>
-      </div>
+    <!-- The parcel's chain of custody -->
+    <div class="chain">
+      {links.map((link, i) => (
+        <div class="chain-link" data-reveal style={`--i:${i}`}>
+          <h3 class="safety-role">{link.role}</h3>
+          <ul class="safety-list">
+            {link.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      ))}
     </div>
 
-    <div class="prohibited-link reveal">
+    <div class="prohibited-link" data-reveal>
       <p>Full rules live in the Terms. Start with what you cannot send.</p>
       <div class="prohibited-actions">
-        <a href={withBase("prohibited-items")} class="btn btn--secondary">Prohibited items</a>
-        <a href={withBase("customs-and-liability")} class="btn btn--secondary">Customs &amp; liability</a>
-        <a href={withBase("terms")} class="btn btn--secondary">Terms and Conditions</a>
+        <a href={withBase("prohibited-items")} class="btn btn--outline-dark">Prohibited items</a>
+        <a href={withBase("customs-and-liability")} class="btn btn--outline-dark">Customs &amp; liability</a>
+        <a href={withBase("terms")} class="btn btn--outline-dark">Terms and Conditions</a>
       </div>
     </div>
   </div>
@@ -55,94 +68,105 @@ import { withBase } from "../../utils/withBase";
 
 <style>
   .safety-header {
-    text-align: center;
-    max-width: var(--container-text);
-    margin-inline: auto;
-    margin-bottom: var(--space-10);
+    display: grid;
+    gap: var(--space-6);
+    margin-bottom: clamp(48px, 7vw, 96px);
   }
 
-  .section-title-center {
+  .safety-title {
     font-size: var(--text-h2);
-    margin-bottom: var(--space-4);
+    letter-spacing: -0.045em;
+    line-height: 1;
   }
 
   .safety-intro {
     font-size: var(--text-lg);
-    color: var(--text-secondary);
+    max-width: 32em;
   }
 
-  .safety-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-    max-width: var(--container-wide);
-    margin-inline: auto;
-  }
-
-  @media (min-width: 768px) {
-    .safety-grid {
-      grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 1024px) {
+    .safety-header {
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      column-gap: var(--space-24);
     }
   }
 
-  .safety-card {
-    padding: var(--space-6);
-    border-radius: var(--radius-xl);
-    background: var(--surface);
-    border: 1px solid var(--border-soft);
+  /* ── Chain of custody ────────────────────────────────── */
+  .chain {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .chain-link {
+    position: relative;
+    padding-left: var(--space-10);
+  }
+
+  /* node + dashed line (vertical on mobile) */
+  .chain-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--kraft);
+  }
+  .chain-link:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 34px;
+    bottom: calc(var(--space-12) * -1 + 10px);
+    border-left: 2px dashed rgba(255, 255, 255, 0.28);
   }
 
   .safety-role {
-    font-size: var(--text-card);
-    font-weight: var(--weight-bold);
-    margin-bottom: var(--space-4);
-    color: var(--brand-primary);
+    font-size: var(--text-h3);
+    letter-spacing: -0.035em;
+    margin-bottom: var(--space-5);
   }
 
-  .safety-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
+  .safety-list { display: flex; flex-direction: column; gap: var(--space-3); }
 
   .safety-list li {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    padding-left: var(--space-5);
-    position: relative;
+    font-size: var(--text-body);
+    color: var(--text-on-dark-2);
+    line-height: var(--leading-snug);
   }
 
-  .safety-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--brand-primary);
-    opacity: 0.5;
+  @media (min-width: 900px) {
+    .chain {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-12);
+    }
+    .chain-link { padding: var(--space-10) 0 0; }
+    .chain-link::before { left: 0; top: 0; }
+    .chain-link:not(:last-child)::after {
+      left: 28px;
+      right: calc(var(--space-12) * -1 + 12px);
+      top: 7px;
+      bottom: auto;
+      border-left: 0;
+      border-top: 2px dashed rgba(255, 255, 255, 0.28);
+    }
   }
 
   .prohibited-link {
-    text-align: center;
-    margin-top: var(--space-10);
+    margin-top: clamp(56px, 8vw, 104px);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-5);
   }
 
-  .prohibited-link p {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-  }
+  .prohibited-link p { font-size: var(--text-sm); color: var(--text-on-dark-2); }
 
   .prohibited-actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
-    justify-content: center;
   }
 </style>

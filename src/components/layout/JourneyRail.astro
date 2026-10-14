@@ -1,0 +1,82 @@
+---
+// Page progress as a flight: Dubai at the top, Rawalpindi at the bottom.
+// Driven by a CSS scroll timeline (off the main thread). Browsers without
+// support simply don't show it.
+---
+
+<div class="rail" aria-hidden="true">
+  <span class="rail-code">DXB</span>
+  <span class="rail-track">
+    <span class="rail-fill"></span>
+    <span class="rail-dot"></span>
+  </span>
+  <span class="rail-code">RWP</span>
+</div>
+
+<style>
+  .rail {
+    --rail-h: min(36vh, 340px);
+    display: none;
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    z-index: var(--z-sticky);
+    translate: 0 -50%;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    width: 52px;
+    padding: var(--space-4) 0;
+    border-radius: var(--radius-full);
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(15, 18, 56, 0.16); /* taste-skill-ignore: fixed overlay over mixed fields */
+  }
+
+  .rail-code {
+    font-size: 0.75rem;
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.06em;
+    color: var(--navy);
+  }
+
+  .rail-track {
+    position: relative;
+    width: 3px;
+    height: var(--rail-h);
+    border-radius: 3px;
+    background: var(--ink-100);
+  }
+
+  .rail-fill {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--navy);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .rail-dot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    box-sizing: content-box;
+    width: 14px;
+    height: 14px;
+    margin: -10px 0 0 -10px;
+    border-radius: 4px;
+    background: var(--kraft);
+    border: 3px solid #fff;
+  }
+
+  @media (min-width: 1100px) {
+    @supports (animation-timeline: scroll()) {
+      .rail { display: flex; }
+      .rail-fill { animation: rail-grow linear both; animation-timeline: scroll(root); }
+      .rail-dot  { animation: rail-travel linear both; animation-timeline: scroll(root); }
+    }
+  }
+
+  @keyframes rail-grow   { to { transform: scaleY(1); } }
+  @keyframes rail-travel { to { transform: translateY(var(--rail-h)); } }
+</style>

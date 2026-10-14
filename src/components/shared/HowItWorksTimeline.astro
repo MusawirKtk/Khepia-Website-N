@@ -7,187 +7,255 @@ const steps = [
   { num: 5, label: "Collect & deliver" },
   { num: 6, label: "Confirm & payout" },
 ];
+
+// Route geometry (viewBox 1200 × 360). The path climbs left to right.
+const W = 1200;
+const H = 360;
+const ys = [262, 118, 238, 104, 226, 92];
+const pts = steps.map((_, i) => ({ x: 100 + i * 200, y: ys[i] }));
+const d = pts
+  .map((p, i) => {
+    if (i === 0) return `M ${p.x} ${p.y}`;
+    const q = pts[i - 1];
+    return `C ${q.x + 100} ${q.y}, ${p.x - 100} ${p.y}, ${p.x} ${p.y}`;
+  })
+  .join(' ');
 ---
 
 <section class="how-it-works section section--soft" id="how-it-works">
   <div class="container">
-    <div class="section-header reveal">
-      <h2 class="section-title">One parcel. One traveller. One journey.</h2>
-      <p class="section-subtitle">From posting to payout — six steps.</p>
+    <div class="section-header">
+      <h2 class="section-title lines">
+        <span class="line"><span data-line style="--i:0">One parcel. One traveller.</span></span>
+        <span class="line"><span data-line style="--i:1">One journey.</span></span>
+      </h2>
+      <p class="section-subtitle" data-reveal style="--i:3">From posting to payout — six steps.</p>
     </div>
 
-    <div class="timeline-wrapper">
-      <div class="timeline-horizontal" role="list">
-        {steps.map((step, index) => (
-          <div class="timeline-step reveal" style={`transition-delay: ${index * 60}ms`} role="listitem">
-            <div class="step-marker">
-              <span class="step-num">{step.num}</span>
-            </div>
-            <div class="step-connector" aria-hidden="true"></div>
-            <p class="step-label">{step.label}</p>
-          </div>
-        ))}
-      </div>
+    <div class="route" id="route" data-w={W} data-h={H}>
+      <svg class="route-svg" viewBox={`0 0 ${W} ${H}`} fill="none" aria-hidden="true">
+        <path d={d} class="route-track" pathLength="1" />
+        <path d={d} class="route-fill" id="route-fill" pathLength="1" />
+      </svg>
+      <span class="route-rail" aria-hidden="true"><span class="route-rail-fill"></span></span>
+      <span class="route-dot" id="route-dot" aria-hidden="true"></span>
 
-      <div class="timeline-vertical" role="list">
-        {steps.map((step, index) => (
-          <div class="timeline-v-step reveal" style={`transition-delay: ${index * 40}ms`} role="listitem">
-            <div class="v-step-track">
-              <div class="v-step-dot">
-                <span class="step-num-v">{step.num}</span>
-              </div>
-              {index < steps.length - 1 && <div class="v-step-line" aria-hidden="true"></div>}
-            </div>
-            <p class="v-step-label">{step.label}</p>
-          </div>
+      <ol class="route-steps">
+        {steps.map((step, i) => (
+          <li
+            class="station"
+            style={`--x:${(pts[i].x / W) * 100}%;--y:${(pts[i].y / H) * 100}%`}
+          >
+            <span class="station-num">{step.num}</span>
+            <span class="station-label">{step.label}</span>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   </div>
 </section>
 
 <style>
   .section-header {
-    text-align: center;
-    max-width: var(--container-text);
-    margin-inline: auto;
-    margin-bottom: var(--space-12);
+    display: grid;
+    gap: var(--space-6);
+    margin-bottom: clamp(40px, 6vw, 80px);
   }
 
-  .section-title {
-    font-size: var(--text-h2);
-    margin-bottom: var(--space-4);
-  }
+  .section-title { font-size: var(--text-h2); letter-spacing: -0.045em; line-height: 1; color: var(--navy); }
 
   .section-subtitle {
     font-size: var(--text-lg);
-    color: var(--text-secondary);
+    color: var(--text-2);
+    max-width: 20em;
   }
 
-  .timeline-horizontal {
-    display: none;
-  }
-
-  @media (min-width: 1024px) {
-    .timeline-horizontal {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 0;
-      position: relative;
-      max-width: 900px;
-      margin-inline: auto;
+  @media (min-width: 900px) {
+    .section-header {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      column-gap: var(--space-16);
     }
   }
 
-  .timeline-step {
+  /* ── Route (mobile first: vertical) ──────────────────── */
+  .route { position: relative; --p: 1; }
+  :global(.js) .route { --p: 0; }
+
+  .route-svg { display: none; }
+
+  .route-steps { display: grid; gap: 0; }
+
+  .station {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 0 var(--space-1);
+    gap: var(--space-5);
+    min-height: 88px;
   }
 
-  .step-marker {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--brand-primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-label);
-    font-weight: var(--weight-bold);
-    margin-bottom: var(--space-3);
+  .station-num {
     position: relative;
     z-index: 2;
-    box-shadow: 0 0 0 4px var(--surface-soft);
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    transition: background-color 360ms ease, color 360ms ease, transform 420ms var(--ease-out);
   }
 
-  .step-num {
-    line-height: 1;
+  .station-label {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.02em;
+    color: var(--text);
+    transition: color 360ms ease;
   }
 
-  .step-connector {
+  :global(.js) .station:not(.is-hit) .station-num { background: var(--white); color: var(--navy); }
+  :global(.js) .station:not(.is-hit) .station-label { color: var(--text-2); }
+  :global(.js) .station.is-hit .station-num { transform: scale(1.06); }
+
+  .route-rail {
     position: absolute;
-    top: 20px;
-    left: calc(50% + 20px);
-    right: calc(-50% + 20px);
-    height: 2px;
-    background: var(--border-medium);
-    z-index: 1;
+    left: 20.5px;
+    top: 22px;
+    bottom: 22px;
+    width: 3px;
+    border-radius: 3px;
+    background: var(--ink-100);
+    overflow: hidden;
+  }
+  .route-rail-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--navy);
+    transform: scaleY(var(--p));
+    transform-origin: top;
   }
 
-  .timeline-step:last-child .step-connector {
-    display: none;
+  .route-dot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border-radius: 6px;
+    background: var(--kraft);
+    border: 5px solid var(--paper);
+    will-change: transform;
   }
-
-  .step-label {
-    font-size: var(--text-xs);
-    color: var(--text-secondary);
-    font-weight: var(--weight-medium);
-    line-height: var(--leading-snug);
-    max-width: 110px;
+  .route-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0 8px;
+    background: var(--kraft-strong);
   }
+  .route:not(.is-live) .route-dot { display: none; }
 
-  .timeline-vertical {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding-left: var(--space-2);
-    max-width: 360px;
-    margin-inline: auto;
-  }
-
+  /* ── Desktop: the winding route ──────────────────────── */
   @media (min-width: 1024px) {
-    .timeline-vertical {
-      display: none;
+    .route { aspect-ratio: 1200 / 360; }
+    .route-rail { display: none; }
+
+    .route-svg {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .route-track,
+    .route-fill {
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+    .route-track { stroke: var(--ink-100); }
+    .route-fill {
+      stroke: var(--navy);
+      stroke-dasharray: 1;
+      stroke-dashoffset: calc(1 - var(--p));
+    }
+
+    .route-steps { display: block; position: absolute; inset: 0; }
+
+    .station {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      flex-direction: column;
+      gap: var(--space-3);
+      min-height: 0;
+      width: 170px;
+      margin-left: -85px;
+      margin-top: -24px;
+      text-align: center;
+    }
+    .station-num { width: 48px; height: 48px; font-size: var(--text-body); }
+    .station-label { font-size: var(--text-body); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .station-num, .station-label { transition: none; }
+  }
+</style>
+
+<script>
+  const route = document.getElementById('route')!;
+  const fill = document.getElementById('route-fill') as unknown as SVGPathElement;
+  const dot = document.getElementById('route-dot')!;
+  const stations = [...route.querySelectorAll('.station')];
+  const VW = Number(route.dataset.w);
+  const VH = Number(route.dataset.h);
+  const desktop = window.matchMedia('(min-width: 1024px)');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (n: number) => Math.min(1, Math.max(0, n));
+
+  route.classList.add('is-live');
+
+  function draw(p: number) {
+    route.style.setProperty('--p', p.toFixed(4));
+    stations.forEach((s, i) => s.classList.toggle('is-hit', p >= i / (stations.length - 1) - 0.002));
+
+    const { width, height } = route.getBoundingClientRect();
+    if (desktop.matches) {
+      const pt = fill.getPointAtLength(p * fill.getTotalLength());
+      dot.style.transform = `translate3d(${(pt.x / VW) * width}px, ${(pt.y / VH) * height}px, 0)`;
+    } else {
+      dot.style.transform = `translate3d(22px, ${22 + (height - 44) * p}px, 0)`;
     }
   }
 
-  .timeline-v-step {
-    display: flex;
-    gap: var(--space-4);
-    align-items: flex-start;
+  function progress() {
+    const r = route.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const start = vh * 0.85;
+    const end = vh * 0.5 - r.height;
+    return clamp((start - r.top) / (start - end));
   }
 
-  .v-step-track {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
+  if (reduce) {
+    draw(1);
+  } else {
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        draw(progress());
+      });
+    };
+    draw(progress());
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
   }
-
-  .v-step-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--brand-primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-xs);
-    font-weight: var(--weight-bold);
-    flex-shrink: 0;
-  }
-
-  .step-num-v {
-    line-height: 1;
-  }
-
-  .v-step-line {
-    width: 2px;
-    height: 24px;
-    background: var(--border-medium);
-  }
-
-  .v-step-label {
-    font-size: var(--text-sm);
-    color: var(--text-primary);
-    font-weight: var(--weight-medium);
-    padding-top: var(--space-2);
-    padding-bottom: var(--space-3);
-  }
-</style>
+</script>

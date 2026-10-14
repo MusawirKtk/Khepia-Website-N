@@ -1,11 +1,10 @@
 /* ============================================================
-   Khepia Global Styles
-   Reset, base typography, scroll behavior, and utilities.
+   Khepia — Redesign global styles
+   Reset, base type, fields, buttons, reveal system.
    ============================================================ */
 
 @import './tokens.css';
 
-/* ── Reset ───────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -16,33 +15,30 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 12px);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  interpolate-size: allow-keywords;
 }
 
 body {
   font-family: var(--font-family);
+  font-optical-sizing: auto;
   font-size: var(--text-body);
   line-height: var(--leading-normal);
-  color: var(--text-primary);
-  background-color: var(--surface);
+  color: var(--text);
+  background-color: var(--paper);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
-img,
-video,
-svg {
+img, video, svg, canvas {
   display: block;
   max-width: 100%;
-  height: auto;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 button {
   font: inherit;
@@ -50,40 +46,36 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-ul,
-ol {
-  list-style: none;
-}
+ul, ol { list-style: none; }
 
-/* ── Typography ──────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-wrap: balance;
 }
 
 p {
-  color: var(--text-secondary);
+  color: var(--text-2);
   line-height: var(--leading-normal);
+  text-wrap: pretty;
 }
 
-strong {
-  font-weight: var(--weight-semibold);
-}
+strong { font-weight: var(--weight-semibold); }
 
-/* ── Focus ───────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--brand-primary);
+  outline: 3px solid var(--ink-400);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
-/* ── Selection ───────────────────────────────────────────── */
 ::selection {
-  background-color: var(--ink-100);
-  color: var(--ink-700);
+  background-color: var(--kraft);
+  color: var(--deep);
 }
 
 /* ── Containers ──────────────────────────────────────────── */
@@ -91,179 +83,82 @@ strong {
   width: 100%;
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: var(--space-6);
+  padding-inline: var(--gutter);
 }
 
-@media (min-width: 768px) {
-  .container {
-    padding-inline: var(--space-10);
-  }
-}
-
-@media (min-width: 1280px) {
-  .container {
-    padding-inline: var(--space-12);
-  }
-}
-
-.container-narrow {
-  max-width: var(--container-narrow);
-}
-
-.container-text {
-  max-width: var(--container-text);
-}
-
-.container-wide {
-  max-width: var(--container-wide);
-}
-
-/* ── Section Spacing ─────────────────────────────────────── */
+/* ── Fields: each chapter is one flat colour ─────────────── */
 .section {
-  padding-block: var(--space-16);
+  padding-block: clamp(72px, 11vw, 168px);
+  position: relative;
 }
 
-@media (min-width: 768px) {
-  .section {
-    padding-block: var(--space-24);
-  }
-}
-
-@media (min-width: 1280px) {
-  .section {
-    padding-block: var(--space-30);
-  }
-}
-
-/* ── Section Backgrounds ─────────────────────────────────── */
-.section--white {
-  background-color: var(--surface);
-}
-
-.section--soft {
-  background-color: var(--surface-soft);
-}
-
-.section--tint {
-  background-color: var(--surface-tint);
-}
+.section--white { background-color: var(--white); }
+.section--soft,
+.section--tint  { background-color: var(--paper); }
 
 .section--navy {
-  background-color: var(--surface-navy);
+  background-color: var(--navy);
   color: var(--text-on-dark);
 }
-
-.section--navy h1,
-.section--navy h2,
-.section--navy h3,
-.section--navy h4 {
-  color: var(--text-on-dark);
-}
-
-.section--navy p {
-  color: var(--text-on-dark-secondary);
-}
-
 .section--deep {
-  background-color: var(--surface-deep);
+  background-color: var(--deep);
   color: var(--text-on-dark);
 }
+.section--kraft {
+  background-color: var(--kraft);
+  color: var(--deep);
+}
 
-.section--deep h1,
-.section--deep h2,
-.section--deep h3,
-.section--deep h4 {
+.section--navy h1, .section--navy h2, .section--navy h3, .section--navy h4,
+.section--deep h1, .section--deep h2, .section--deep h3, .section--deep h4 {
   color: var(--text-on-dark);
 }
+.section--navy p,
+.section--deep p { color: var(--text-on-dark-2); }
 
-.section--deep p {
-  color: var(--text-on-dark-secondary);
-}
-
-/* ── Buttons ─────────────────────────────────────────────── */
+/* ── Buttons: flat, fully round, one decision ────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  font-weight: var(--weight-semibold);
+  min-height: 52px;
+  padding: 0 var(--space-8);
   font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
   line-height: 1;
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-md);
+  white-space: nowrap;
+  border-radius: var(--radius-full);
   transition:
     transform var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out),
-    background-color var(--duration-fast) var(--ease-out);
-  min-height: 48px;
-  white-space: nowrap;
+    background-color var(--duration-normal) ease,
+    color var(--duration-normal) ease;
 }
 
-.btn:hover {
-  transform: translateY(-1px);
-}
+.btn:active { transform: scale(0.97); }
 
-.btn:active {
-  transform: translateY(0);
-}
+.btn--primary   { background-color: var(--navy); color: #fff; }
+.btn--kraft     { background-color: var(--kraft); color: var(--deep); }
+.btn--secondary { background-color: var(--ink-50); color: var(--navy); }
+.btn--on-dark   { background-color: #fff; color: var(--navy); }
+.btn--outline-dark { background-color: rgba(255, 255, 255, 0.14); color: #fff; }
 
-.btn--primary {
-  background-color: var(--brand-primary);
-  color: #FFFFFF;
-  box-shadow: var(--shadow-sm);
-}
+.btn--sm { min-height: 40px; padding: 0 var(--space-5); font-size: var(--text-xs); }
+.btn--lg { min-height: 60px; padding: 0 var(--space-10); font-size: var(--text-body); }
 
-.btn--primary:hover {
-  background-color: var(--brand-hover);
-  box-shadow: var(--shadow-md);
-}
-
-.btn--secondary {
-  background-color: transparent;
-  color: var(--brand-primary);
-  border: 1.5px solid var(--border-medium);
-}
-
-.btn--secondary:hover {
-  border-color: var(--brand-primary);
-  background-color: var(--ink-50);
-}
-
-.btn--on-dark {
-  background-color: #FFFFFF;
-  color: var(--brand-deep);
-}
-
-.btn--on-dark:hover {
-  background-color: rgba(255, 255, 255, 0.92);
-  box-shadow: var(--shadow-md);
-}
-
-.btn--outline-dark {
-  background-color: transparent;
-  color: #FFFFFF;
-  border: 1.5px solid var(--border-on-dark);
-}
-
-.btn--outline-dark:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.06);
-}
-
-.btn--lg {
-  font-size: var(--text-body);
-  padding: var(--space-4) var(--space-8);
-  min-height: 52px;
-  border-radius: var(--radius-lg);
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover   { background-color: var(--ink-400); }
+  .btn--kraft:hover     { background-color: var(--kraft-strong); }
+  .btn--secondary:hover { background-color: var(--ink-100); }
+  .btn--on-dark:hover   { background-color: var(--kraft); color: var(--deep); }
+  .btn--outline-dark:hover { background-color: rgba(255, 255, 255, 0.24); }
 }
 
 @media (max-width: 639px) {
-  .btn--lg {
-    width: 100%;
-  }
+  .btn--lg { width: 100%; }
 }
 
-/* ── Visually Hidden (accessibility) ─────────────────────── */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -276,39 +171,50 @@ strong {
   border: 0;
 }
 
-/* ── Reduced Motion ──────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+/* ── Reveal system ───────────────────────────────────────────
+   Hidden state only applies under html.js so content never
+   stays invisible if scripts fail. Variants differ on purpose. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out),
+      transform var(--duration-reveal) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 70ms);
   }
 
-  *,
-  *::before,
-  *::after {
+  .js [data-reveal="fade"] {
+    transform: none;
+    transition: opacity 900ms ease;
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Masked headline lines: each line rises from its own baseline */
+  .js .lines .line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+  .js .lines [data-line] {
+    display: block;
+    transform: translateY(108%);
+    transition: transform 900ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 110ms + 80ms);
+  }
+  .js .lines.is-in [data-line] { transform: none; }
+}
+
+.lines .line { display: block; }
+.lines [data-line] { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* ── Reveal Animation Base ───────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity var(--duration-normal) var(--ease-out),
-    transform var(--duration-normal) var(--ease-out);
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
   }
 }

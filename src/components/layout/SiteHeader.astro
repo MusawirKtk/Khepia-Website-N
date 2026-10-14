@@ -13,62 +13,53 @@ const getKhepiaHref = withBase("#get-khepia");
 
 <header class="site-header" id="site-header">
   <div class="header-inner container">
-    <!-- Logo -->
     <a href={withBase()} class="logo" aria-label="Khepia home">
       <svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="currentColor" opacity="0.15"/>
-        <path d="M8 24V8h4v6.5L17.5 8H22l-6.5 7.5L22 24h-4.5l-4-6.2L12 19v5H8z" fill="currentColor"/>
+        <rect width="32" height="32" rx="9" fill="currentColor"/>
+        <path d="M8 24V8h4v6.5L17.5 8H22l-6.5 7.5L22 24h-4.5l-4-6.2L12 19v5H8z" fill="#fff"/>
       </svg>
       <span class="logo-text">Khepia</span>
     </a>
 
-    <!-- Desktop nav -->
     <nav class="desktop-nav" aria-label="Main navigation">
       {navLinks.map((link) => (
         <a href={link.href} class="nav-link">{link.label}</a>
       ))}
-      <span class="nav-legal" aria-label="Legal">
-        <a href={withBase("terms")} class="nav-link nav-link--legal">Terms</a>
-        <span class="nav-legal-dot" aria-hidden="true">·</span>
-        <a href={withBase("privacy")} class="nav-link nav-link--legal">Privacy</a>
-      </span>
     </nav>
 
-    <!-- Desktop CTA -->
-    <a href={getKhepiaHref} class="btn btn--primary header-cta">
-      Get Khepia
-    </a>
+    <div class="header-end">
+      <span class="nav-legal" aria-label="Legal">
+        <a href={withBase("terms")} class="nav-link nav-link--legal">Terms</a>
+        <a href={withBase("privacy")} class="nav-link nav-link--legal">Privacy</a>
+      </span>
+      <a href={getKhepiaHref} class="btn btn--primary btn--sm header-cta">Get Khepia</a>
 
-    <!-- Mobile controls -->
-    <div class="mobile-controls">
-      <a href={getKhepiaHref} class="btn btn--primary btn--sm mobile-cta">
-        Get app
-      </a>
-      <button
-        class="menu-toggle"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-        id="menu-toggle"
-      >
-        <span class="menu-icon">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </span>
-      </button>
+      <div class="mobile-controls">
+        <a href={getKhepiaHref} class="btn btn--primary btn--sm mobile-cta">Get app</a>
+        <button
+          class="menu-toggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          id="menu-toggle"
+        >
+          <span class="menu-icon" aria-hidden="true">
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- Mobile menu -->
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
   <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
   <div class="mobile-menu-panel">
     <div class="mobile-menu-header">
       <span class="logo-text">Khepia</span>
       <button class="menu-close" aria-label="Close menu" id="menu-close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
@@ -78,36 +69,22 @@ const getKhepiaHref = withBase("#get-khepia");
       {navLinks.map((link) => (
         <a href={link.href} class="mobile-nav-link">{link.label}</a>
       ))}
-      <a href={withBase("terms")} class="mobile-nav-link">Terms and Conditions</a>
-      <a href={withBase("privacy")} class="mobile-nav-link">Privacy Policy</a>
+      <a href={withBase("terms")} class="mobile-nav-link mobile-nav-link--legal">Terms and Conditions</a>
+      <a href={withBase("privacy")} class="mobile-nav-link mobile-nav-link--legal">Privacy Policy</a>
     </nav>
     <div class="mobile-menu-footer">
-      <a href={getKhepiaHref} class="btn btn--primary btn--lg mobile-menu-cta">
-        Get Khepia
-      </a>
+      <a href={getKhepiaHref} class="btn btn--kraft btn--lg mobile-menu-cta">Get Khepia</a>
     </div>
   </div>
 </div>
 
 <style>
-  /* ── Header ──────────────────────────────────────────── */
   .site-header {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0 0 auto 0;
     z-index: var(--z-header);
-    height: 72px;
-    transition:
-      height var(--duration-normal) var(--ease-out),
-      background-color var(--duration-normal) var(--ease-out),
-      box-shadow var(--duration-normal) var(--ease-out);
-  }
-
-  .site-header.is-scrolled {
-    height: 60px;
-    background-color: #fff;
-    box-shadow: 0 1px 0 var(--border-soft);
+    height: var(--header-h);
+    background-color: var(--white);
   }
 
   .header-inner {
@@ -118,287 +95,223 @@ const getKhepiaHref = withBase("#get-khepia");
     gap: var(--space-8);
   }
 
-  /* ── Logo ────────────────────────────────────────────── */
   .logo {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    color: var(--text-on-dark);
+    gap: var(--space-3);
+    color: var(--navy);
     flex-shrink: 0;
-    transition: color var(--duration-normal) var(--ease-out);
-  }
-
-  .is-scrolled .logo {
-    color: var(--brand-deep);
   }
 
   .logo-text {
-    font-size: 1.25rem;
-    font-weight: var(--weight-bold);
-    letter-spacing: -0.01em;
+    font-size: 1.375rem;
+    font-weight: var(--weight-extrabold);
+    letter-spacing: -0.04em;
+    color: var(--navy);
   }
 
-  /* ── Desktop Nav ─────────────────────────────────────── */
   .desktop-nav {
     display: none;
     align-items: center;
     gap: var(--space-8);
-  }
-
-  @media (min-width: 1024px) {
-    .desktop-nav {
-      display: flex;
-    }
+    margin-inline: auto;
   }
 
   .nav-link {
-    font-size: var(--text-sm);
+    position: relative;
+    font-size: var(--text-label);
     font-weight: var(--weight-medium);
-    color: var(--text-on-dark-secondary);
-    transition: color var(--duration-fast) var(--ease-out);
-    white-space: nowrap;
+    color: var(--text);
+    padding-block: var(--space-2);
   }
 
-  .nav-link:hover {
-    color: var(--text-on-dark);
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 2px 0;
+    height: 2px;
+    background: var(--kraft-strong);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-normal) var(--ease-out);
   }
 
-  .is-scrolled .nav-link {
-    color: var(--text-secondary);
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover::after { transform: scaleX(1); }
   }
 
-  .is-scrolled .nav-link:hover {
-    color: var(--text-primary);
+  .header-end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
   }
 
   .nav-legal {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-left: var(--space-2);
-    padding-left: var(--space-6);
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .is-scrolled .nav-legal {
-    border-left-color: var(--border-soft);
-  }
-
-  .nav-link--legal {
-    font-size: var(--text-xs);
-    font-weight: var(--weight-medium);
-    opacity: 0.85;
-  }
-
-  .nav-legal-dot {
-    font-size: var(--text-xs);
-    color: var(--text-on-dark-secondary);
-    opacity: 0.6;
-  }
-
-  .is-scrolled .nav-legal-dot {
-    color: var(--text-muted);
-  }
-
-  /* ── Header CTA ──────────────────────────────────────── */
-  .header-cta {
     display: none;
-    min-height: 40px;
-    padding: var(--space-2) var(--space-5);
-    font-size: var(--text-label);
+    align-items: center;
+    gap: var(--space-5);
   }
 
-  @media (min-width: 1024px) {
-    .header-cta {
-      display: inline-flex;
-    }
-  }
+  .nav-link--legal { color: var(--text-2); }
 
-  /* ── Mobile Controls ─────────────────────────────────── */
+  .header-cta { display: none; }
+
   .mobile-controls {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: var(--space-2);
   }
 
-  @media (min-width: 1024px) {
-    .mobile-controls {
-      display: none;
-    }
+  @media (min-width: 1100px) {
+    .desktop-nav { display: flex; }
+    .header-cta { display: inline-flex; }
+    .mobile-controls { display: none; }
   }
 
-  .btn--sm {
-    min-height: 36px;
-    padding: var(--space-1) var(--space-4);
-    font-size: var(--text-xs);
+  @media (min-width: 1280px) {
+    .nav-legal { display: flex; }
   }
 
+  /* ── Menu toggle ───────────────────────────────────────── */
   .menu-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 44px;
     height: 44px;
-    color: var(--text-on-dark);
-    transition: color var(--duration-normal) var(--ease-out);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background: var(--paper);
+    transition: transform var(--duration-fast) var(--ease-out);
   }
-
-  .is-scrolled .menu-toggle {
-    color: var(--text-primary);
-  }
+  .menu-toggle:active { transform: scale(0.94); }
 
   .menu-icon {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    width: 20px;
+    gap: 6px;
+    width: 18px;
   }
-
   .bar {
     display: block;
     height: 2px;
-    width: 100%;
-    background: currentColor;
-    border-radius: 1px;
-    transition: transform var(--duration-normal) var(--ease-out);
+    border-radius: 2px;
+    background: var(--navy);
   }
 
-  /* ── Mobile Menu ─────────────────────────────────────── */
+  .menu-close {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .menu-close:active { transform: scale(0.94); }
+
+  /* ── Mobile menu: drawer enters and leaves on the same path ─ */
   .mobile-menu {
     position: fixed;
     inset: 0;
     z-index: var(--z-overlay);
-    pointer-events: none;
     visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear 360ms;
   }
-
   .mobile-menu.is-open {
-    pointer-events: auto;
     visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
   }
 
   .mobile-menu-backdrop {
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0);
-    transition: background-color var(--duration-slow) var(--ease-out);
+    background: rgba(15, 18, 56, 0.55);
+    opacity: 0;
+    transition: opacity 280ms ease;
   }
-
-  .mobile-menu.is-open .mobile-menu-backdrop {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
+  .mobile-menu.is-open .mobile-menu-backdrop { opacity: 1; }
 
   .mobile-menu-panel {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: min(320px, 85vw);
-    background-color: var(--surface);
-    transform: translateX(100%);
-    transition: transform var(--duration-slow) var(--ease-out);
+    inset: 0 0 0 auto;
+    width: min(420px, 100%);
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-xl);
+    padding: var(--space-6);
+    background: var(--navy);
+    transform: translateX(100%);
+    transition: transform 340ms var(--ease-drawer);
   }
-
-  .mobile-menu.is-open .mobile-menu-panel {
-    transform: translateX(0);
-  }
+  .mobile-menu.is-open .mobile-menu-panel { transform: translateX(0); }
 
   .mobile-menu-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-4) var(--space-6);
-    height: 72px;
-    border-bottom: 1px solid var(--border-soft);
-  }
-
-  .mobile-menu-header .logo-text {
-    color: var(--brand-deep);
-  }
-
-  .menu-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
     height: 44px;
-    color: var(--text-secondary);
+    margin-bottom: var(--space-10);
   }
+  .mobile-menu-header .logo-text { color: #fff; }
 
   .mobile-nav {
     display: flex;
     flex-direction: column;
-    padding: var(--space-4) 0;
     flex: 1;
   }
 
   .mobile-nav-link {
-    display: flex;
-    align-items: center;
-    padding: var(--space-4) var(--space-6);
-    font-size: var(--text-body);
+    padding-block: var(--space-3);
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-weight: var(--weight-bold);
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: #fff;
+    opacity: 0;
+    transform: translateX(16px);
+    transition: opacity 260ms ease, transform 340ms var(--ease-drawer);
+  }
+  .mobile-menu.is-open .mobile-nav-link {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(60ms + var(--i, 0) * 40ms);
+  }
+  .mobile-nav-link--legal {
+    font-size: var(--text-lg);
     font-weight: var(--weight-medium);
-    color: var(--text-primary);
-    min-height: 48px;
-    transition: background-color var(--duration-fast) var(--ease-out);
+    letter-spacing: -0.01em;
+    color: var(--text-on-dark-2);
   }
 
-  .mobile-nav-link:hover {
-    background-color: var(--surface-soft);
-  }
+  .mobile-menu-footer { padding-top: var(--space-6); }
+  .mobile-menu-cta { width: 100%; }
 
-  .mobile-menu-footer {
-    padding: var(--space-6);
-    border-top: 1px solid var(--border-soft);
-  }
-
-  .mobile-menu-cta {
-    width: 100%;
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-panel { transform: none; opacity: 0; transition: opacity 200ms ease; }
+    .mobile-menu.is-open .mobile-menu-panel { opacity: 1; }
+    .mobile-nav-link { transform: none; }
   }
 </style>
 
 <script>
-  // Scroll behavior — transparent to solid
-  const header = document.getElementById('site-header')!;
-  const scrollThreshold = 50;
-
-  function updateHeader() {
-    if (window.scrollY > scrollThreshold) {
-      header.classList.add('is-scrolled');
-    } else {
-      header.classList.remove('is-scrolled');
-    }
-  }
-
-  let headerScrollQueued = false;
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (headerScrollQueued) return;
-      headerScrollQueued = true;
-      requestAnimationFrame(() => {
-        updateHeader();
-        headerScrollQueued = false;
-      });
-    },
-    { passive: true }
-  );
-  updateHeader();
-
-  // Mobile menu
   const menuToggle = document.getElementById('menu-toggle')!;
   const menuClose = document.getElementById('menu-close')!;
   const mobileMenu = document.getElementById('mobile-menu')!;
   const backdrop = document.getElementById('mobile-menu-backdrop')!;
+
+  mobileMenu.querySelectorAll<HTMLElement>('.mobile-nav-link').forEach((link, i) => {
+    link.style.setProperty('--i', String(i));
+  });
 
   function openMenu() {
     mobileMenu.classList.add('is-open');
     mobileMenu.setAttribute('aria-hidden', 'false');
     menuToggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
+    menuClose.focus();
   }
 
   function closeMenu() {
@@ -411,16 +324,10 @@ const getKhepiaHref = withBase("#get-khepia");
   menuToggle.addEventListener('click', openMenu);
   menuClose.addEventListener('click', closeMenu);
   backdrop.addEventListener('click', closeMenu);
-
-  // Close on nav link click
-  mobileMenu.querySelectorAll('.mobile-nav-link').forEach((link) => {
+  mobileMenu.querySelectorAll('.mobile-nav-link, .mobile-menu-cta').forEach((link) => {
     link.addEventListener('click', closeMenu);
   });
-
-  // Close on escape
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) {
-      closeMenu();
-    }
+    if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) closeMenu();
   });
 </script>
