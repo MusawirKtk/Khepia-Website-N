@@ -69,8 +69,7 @@
     border: 3px solid #fff;
   }
 
-  /* Only where the page gutter is wide enough that the rail never covers content */
-  @media (min-width: 1500px) {
+  @media (min-width: 1100px) {
     @supports (animation-timeline: scroll()) {
       .rail { display: flex; }
       .rail-fill { animation: rail-grow linear both; animation-timeline: scroll(root); }
