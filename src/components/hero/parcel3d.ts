@@ -140,6 +140,7 @@ export function initParcel(canvas: HTMLCanvasElement, host: HTMLElement, reduceM
     if (run && !raf) raf = requestAnimationFrame(tick);
     if (!run && raf) { cancelAnimationFrame(raf); raf = 0; }
   };
+  render(0); // never leave a blank canvas if the host starts off-screen
   new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); }).observe(host);
   document.addEventListener('visibilitychange', sync);
   sync();
