@@ -152,7 +152,7 @@ import { withBase } from '../../utils/withBase';
 
   .money-title {
     font-size: var(--text-h2);
-    letter-spacing: -0.045em;
+    letter-spacing: -0.025em;
     line-height: 1;
     color: var(--deep);
   }
@@ -212,8 +212,7 @@ import { withBase } from '../../utils/withBase';
     padding: var(--space-6) var(--space-6) 0;
     font-size: var(--text-xs);
     font-weight: var(--weight-bold);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: var(--navy);
   }
   .ledger-header--ok { color: var(--ok-on-dark); }
@@ -241,7 +240,6 @@ import { withBase } from '../../utils/withBase';
   .ledger-amount {
     font-size: var(--text-sm);
     font-weight: var(--weight-semibold);
-    font-variant-numeric: tabular-nums;
     white-space: nowrap;
     color: var(--text);
   }
@@ -249,8 +247,10 @@ import { withBase } from '../../utils/withBase';
 
   .ledger-amount--bold {
     font-size: var(--text-card);
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums;
   }
   .ledger-card--result .ledger-amount--ok { color: var(--ok-on-dark); }
 
@@ -305,7 +305,7 @@ import { withBase } from '../../utils/withBase';
 
   .deposit-title {
     font-size: var(--text-h1);
-    letter-spacing: -0.045em;
+    letter-spacing: -0.025em;
     line-height: 1;
     max-width: 14em;
   }
@@ -359,16 +359,17 @@ import { withBase } from '../../utils/withBase';
   .deposit-label {
     font-size: var(--text-xs);
     font-weight: var(--weight-semibold);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: var(--text-on-dark-muted);
   }
   .deposit-step--ok .deposit-label { color: var(--deep); opacity: 0.75; }
 
   .deposit-value {
     font-size: var(--text-h3);
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.04em;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums;
     line-height: 1.05;
     color: #fff;
   }

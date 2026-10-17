@@ -52,12 +52,21 @@ button {
 ul, ol { list-style: none; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
   color: var(--text);
   text-wrap: balance;
 }
+
+/* Display serif for titles; small headings stay in the grotesque. */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  letter-spacing: -0.022em;
+  font-feature-settings: "kern", "liga", "lnum";
+}
+h1 em, h2 em, h3 em { font-style: italic; font-weight: 400; }
 
 p {
   color: var(--text-2);

@@ -7,7 +7,7 @@ import { withBase } from '../../utils/withBase';
   <div class="hero-inner container">
     <h1 class="hero-headline lines">
       <span class="line"><span data-line style="--i:0">Send with someone</span></span>
-      <span class="line"><span data-line style="--i:1">already going.</span></span>
+      <span class="line"><span data-line style="--i:1"><em>already going.</em></span></span>
     </h1>
 
     <div class="hero-text">
@@ -106,9 +106,9 @@ import { withBase } from '../../utils/withBase';
   /* ── Headline: the loudest thing on the page ─────────── */
   .hero-headline {
     font-size: clamp(3.05rem, 9.2vw, 8.4rem);
-    font-weight: var(--weight-extrabold);
+    font-weight: var(--weight-display);
     line-height: var(--leading-display);
-    letter-spacing: -0.055em;
+    letter-spacing: -0.03em;
     color: var(--navy);
   }
 
@@ -136,8 +136,7 @@ import { withBase } from '../../utils/withBase';
   .hero-corridor {
     font-size: var(--text-label);
     font-weight: var(--weight-semibold);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: var(--navy);
   }
 
@@ -196,8 +195,7 @@ import { withBase } from '../../utils/withBase';
     margin-bottom: var(--space-3);
     font-size: var(--text-xs);
     font-weight: var(--weight-bold);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
     opacity: 0.72;
   }
 
@@ -206,8 +204,10 @@ import { withBase } from '../../utils/withBase';
     align-items: baseline;
     gap: var(--space-2);
     font-size: var(--text-card);
-    font-weight: var(--weight-bold);
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums;
     line-height: 1.1;
   }
   .ticket-arrow { font-weight: var(--weight-medium); opacity: 0.6; }

@@ -6,7 +6,7 @@ import { withBase } from "../../utils/withBase";
   <div class="container">
     <h2 class="cta-headline lines">
       <span class="line"><span data-line style="--i:0">Something to send?</span></span>
-      <span class="line"><span data-line style="--i:1">Flying somewhere?</span></span>
+      <span class="line"><span data-line style="--i:1"><em>Flying somewhere?</em></span></span>
     </h2>
     <p class="cta-sub" data-reveal style="--i:3">Verified people. Matching routes. Protected payment.</p>
     <div class="cta-actions" data-reveal style="--i:4">
@@ -26,8 +26,10 @@ import { withBase } from "../../utils/withBase";
 
   .cta-headline {
     font-size: clamp(2.6rem, 9vw, 8.4rem);
-    font-weight: var(--weight-extrabold);
-    letter-spacing: -0.055em;
+    font-family: var(--font-display);
+    font-weight: var(--weight-display);
+    letter-spacing: -0.02em;
+    font-variant-numeric: lining-nums;
     line-height: var(--leading-display);
     color: var(--deep);
     margin-bottom: var(--space-8);
